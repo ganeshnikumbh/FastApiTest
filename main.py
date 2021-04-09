@@ -17,8 +17,8 @@ import json
 
 statics.load_statics(globals())
 
-#endpoint = 'ws://52.174.65.201:8182/gremlin'
-endpoint = 'ws://10.1.0.4:8182/gremlin'
+endpoint = 'ws://52.174.65.201:8182/gremlin'
+#endpoint = 'ws://10.1.0.4:8182/gremlin'
 
 graph = Graph()
 
@@ -29,9 +29,6 @@ g = graph.traversal().withRemote(connection)
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
-
 
 
 @app.get("/")
@@ -40,7 +37,7 @@ def read_root():
 
 @app.get("/products")
 def read_products(token: Optional[str] = Header(None)):
-    writer = graphsonV3d0.GraphSONWriter()
+    #writer = graphsonV3d0.GraphSONWriter()
  
     #products = writer.toDict(g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList())
     #products = writer.writeObject(g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList())
