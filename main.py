@@ -17,7 +17,8 @@ import json
 
 statics.load_statics(globals())
 
-endpoint = 'ws://52.174.65.201:8182/gremlin'
+#endpoint = 'ws://52.174.65.201:8182/gremlin'
+endpoint = 'ws://10.1.0.4:8182/gremlin'
 
 graph = Graph()
 
