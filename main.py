@@ -17,8 +17,8 @@ import json
 
 statics.load_statics(globals())
 
-#endpoint = 'ws://52.174.65.201:8182/gremlin'
-endpoint = 'ws://10.1.0.4:8182/gremlin'
+endpoint = 'ws://52.174.65.201:8182/gremlin'
+#endpoint = 'ws://10.1.0.4:8182/gremlin'
 
 graph = Graph()
 
@@ -29,8 +29,6 @@ g = graph.traversal().withRemote(connection)
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
 
 
 
