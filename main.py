@@ -56,7 +56,7 @@ def read_products(request: Request, id: str):
     return product
 
 @app.get("/suppliers")
-def read_products(token: Optional[str] = Header(None)):
+def read_suppliers(token: Optional[str] = Header(None)):
     
  
     supplier = g.V().hasLabel('Supplier').valueMap().toList()
@@ -64,7 +64,7 @@ def read_products(token: Optional[str] = Header(None)):
     return supplier
 
 @app.get("/product-categories")
-def read_products(token: Optional[str] = Header(None)):
+def read_categories(token: Optional[str] = Header(None)):
     
  
     category = g.V().hasLabel('Category').valueMap().toList()
@@ -72,8 +72,8 @@ def read_products(token: Optional[str] = Header(None)):
     return category
 
 
-@app.get("/pcs")
-def read_products(token: Optional[str] = Header(None)):
+@app.get("/all-product-cat-supplier")
+def read_all_products_with_category_supplier(token: Optional[str] = Header(None)):
     
  
     pcs = g.V().hasLabel("Product").match(as_("c").values("productID").as_("Product ID"),\
