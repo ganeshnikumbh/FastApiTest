@@ -31,14 +31,13 @@ app = FastAPI()
 
 
 
-
 @app.get("/")
 def read_root():
     return {"Hello": "Word"}
 
 @app.get("/products")
 def read_products(token: Optional[str] = Header(None)):
-    writer = graphsonV3d0.GraphSONWriter()
+    #writer = graphsonV3d0.GraphSONWriter()
  
     #products = writer.toDict(g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList())
     #products = writer.writeObject(g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList())
