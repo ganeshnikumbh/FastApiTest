@@ -1,1 +1,1 @@
-uvicorn main:app --reload --host localhost --port 8000
+python -m uvicorn main:app --reload --host localhost --port 8000
