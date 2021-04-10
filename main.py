@@ -8,6 +8,7 @@ from gremlin_python.structure.graph import Graph
 from gremlin_python.structure.io import graphsonV3d0
 from gremlin_python.process.graph_traversal import __,union, values, constant, unfold
 from gremlin_python.driver.driver_remote_connection import DriverRemoteConnection
+from gremlin_python.driver import client,resultset
 from gremlin_python.process.traversal import T, P, Operator, Order, neq
 from typing import Optional
 from pydantic import BaseModel
@@ -16,6 +17,10 @@ import uuid
 import json
 
 statics.load_statics(globals())
+
+conn = client.Client('ws://52.174.65.201:8182/gremlin','g')
+
+
 
 endpoint = 'ws://52.174.65.201:8182/gremlin'
 #endpoint = 'ws://10.1.0.4:8182/gremlin'
@@ -85,3 +90,55 @@ def read_all_products_with_category_supplier(token: Optional[str] = Header(None)
                 ).select("Product ID","Product Name","Category ID","Category Name","Supplier ID","Company Name").toList()
     
     return pcs
+
+@app.get("/filter-products")
+def read_filter_products(productId: int = 0, categoryId: int = 0, supplierId: int = 0):
+    
+    print(productId)
+    print(categoryId)
+    print(supplierId)
+
+    # check supplied product id. if it is not 0 then filter on product
+    if productId == 0:
+       
+        product_query = 'g.V().hasLabel("Product")'
+                
+    else:
+        product_query = 'g.V().has("Product","productID","{}")'.format(productId)
+
+
+    # check supplied category id. if it is not 0 then filter on category   
+    if categoryId == 0:
+       
+        category_query = 'hasLabel("Category")'
+            
+    else:
+        category_query = 'has("Category","categoryID","{}")'.format(categoryId)
+
+    
+    # check supplied supplier id. if it is not 0 then filter on supplier
+    if supplierId == 0:
+       
+        supplier_query = 'hasLabel("Supplier")'
+            
+    else:
+        supplier_query = 'has("Supplier","supplierID","{}")'.format(supplierId)
+    
+    
+    finalquery = '{}.match(__.as("c").values("productID").as("Product ID"),\
+                __.as("c").values("productName").as("Product Name"),\
+                __.as("c").out("PART_OF").{}.values("categoryID").as("Category ID"),\
+                __.as("c").out("PART_OF").{}.values("categoryName").as("Category Name"),\
+                __.as("c").in("SUPPLIES").{}.values("supplierID").as("Supplier ID"),\
+                __.as("c").in("SUPPLIES").{}.values("companyName").as("Company Name"),\
+                ).select("Product ID","Product Name","Category ID","Category Name","Supplier ID","Company Name").toList()'.format(product_query,category_query,category_query,supplier_query,supplier_query)
+    #print(finalquery)
+
+    query_submit = conn.submit(finalquery)
+    future_results = query_submit.all()
+    results = future_results.result()
+    #print(results)
+
+    conn.close
+    
+    return results
