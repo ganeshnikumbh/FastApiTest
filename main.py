@@ -46,7 +46,8 @@ def read_products(token: Optional[str] = Header(None)):
  
     #products = writer.toDict(g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList())
     #products = writer.writeObject(g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList())
-    products = g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList()
+    products = g.V().hasLabel('Product').limit(2).project('Product Id','Product Name','supplierID','categoryID','discontinued').\
+                by('productID').by('productName').by('supplierID').by('categoryID').by('discontinued').toList()
     #pjson = json.dumps(products)
     return products
 
