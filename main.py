@@ -140,6 +140,6 @@ def read_filter_products(productId: int = 0, categoryId: int = 0, supplierId: in
     results = future_results.result()
     #print(results)
 
-    conn.close
+    #conn.close
     
     return results
