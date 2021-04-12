@@ -18,12 +18,14 @@ import json
 
 statics.load_statics(globals())
 
-conn = client.Client('ws://52.174.65.201:8182/gremlin','g')
+#conn = client.Client('ws://52.174.65.201:8182/gremlin','g')
+conn = client.Client('ws://13.94.138.18:8182/gremlin','g')
 
 
 
-endpoint = 'ws://52.174.65.201:8182/gremlin'
+#endpoint = 'ws://52.174.65.201:8182/gremlin'
 #endpoint = 'ws://10.1.0.4:8182/gremlin'
+endpoint = 'ws://13.94.138.18:8182/gremlin'
 
 graph = Graph()
 
@@ -46,7 +48,7 @@ def read_products(token: Optional[str] = Header(None)):
  
     #products = writer.toDict(g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList())
     #products = writer.writeObject(g.V().hasLabel('Product').limit(2).project('Product Id','Product Name').by('productID').by('productName').toList())
-    products = g.V().hasLabel('Product').limit(2).project('Product Id','Product Name','supplierID','categoryID','discontinued').\
+    products = g.V().hasLabel('Product').project('Product Id','Product Name','supplierID','categoryID','discontinued').\
                 by('productID').by('productName').by('supplierID').by('categoryID').by('discontinued').toList()
     #pjson = json.dumps(products)
     return products
@@ -56,7 +58,8 @@ def read_products(request: Request, id: str):
     
     ret = {}
  
-    product = g.V().has('Product','productID',id).project('Product Id','Product Name').by('productID').by('productName').toList()
+    product = g.V().has('Product','productID',id).project('Product Id','Product Name','supplierID','categoryID','discontinued').\
+                by('productID').by('productName').by('supplierID').by('categoryID').by('discontinued').toList()
     
 
     return product
