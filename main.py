@@ -19,13 +19,14 @@ import json
 statics.load_statics(globals())
 
 #conn = client.Client('ws://52.174.65.201:8182/gremlin','g')
-conn = client.Client('ws://13.94.138.18:8182/gremlin','g')
+#conn = client.Client('ws://13.94.138.18:8182/gremlin','g')
+conn = client.Client('ws://10.1.0.4:8182/gremlin','g')
 
 
 
 #endpoint = 'ws://52.174.65.201:8182/gremlin'
-#endpoint = 'ws://10.1.0.4:8182/gremlin'
-endpoint = 'ws://13.94.138.18:8182/gremlin'
+#endpoint = 'ws://13.94.138.18:8182/gremlin'
+endpoint = 'ws://10.1.0.4:8182/gremlin'
 
 graph = Graph()
 
